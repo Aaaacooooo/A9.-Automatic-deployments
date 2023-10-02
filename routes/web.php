@@ -27,7 +27,7 @@ Route::get('/home', function () {
 //Una para mostrar todos los enlaces que llamará al método index del controlador mediante GET 
 Route::get('community', [App\Http\Controllers\CommunityLinkController::class, 'index']);
 //Otra para crear un link que llamará al método store del controlador mediante POST:
-Route::post('community', [App\Http\Controllers\CommunityLinkController::class, 'store']);
+Route::post('community', [App\Http\Controllers\CommunityLinkController::class, 'store'])->middleware('auth');
 
 
 //Parámetro obligatorio.
@@ -53,4 +53,12 @@ Route::get('/user/{name?}', function (?string $name = 'John') {
 Route::post('/gdpr', function () {
     return "ruta post";
 
+});
+
+Route::get('/respuesta/200', function () {
+    return response('Respuesta', 200);
+});
+
+Route::get('/error/404', function () {
+    return response('Error', 404);
 });

@@ -11,7 +11,8 @@ class CommunityLinkController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         $links = CommunityLink::paginate(25);
         return view('community/index', compact('links'));
     }
@@ -27,11 +28,27 @@ class CommunityLinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
-        dd($request);
+    public function store(Request $request)
 
-        request()->merge(['user_id' => Auth::id(), 'channel_id' => 1 ]);
-        CommunityLink::create($request->all());
+    {
+
+        $data = $request->validate([
+
+            'title' => 'required|max:255',
+
+
+
+            'link' => 'required|unique:community_links|url|max:255',
+
+
+        ]);
+
+        $data['user_id'] = Auth::id();
+
+        $data['channel_id'] = 1;
+
+        CommunityLink::create($data);
+
         return back();
     }
 
