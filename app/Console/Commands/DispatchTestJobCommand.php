@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Commands\TestJob;
+use App\Jobs\TestJob;
 use Illuminate\Console\Command;
 
 class DispatchTestJobCommand extends Command
@@ -12,6 +12,7 @@ class DispatchTestJobCommand extends Command
       *
       * @var string
       */
+
      protected $signature = 'dispatch:test-job';
      /**
       * The console command description.
@@ -21,10 +22,13 @@ class DispatchTestJobCommand extends Command
 
 
      protected $description = 'Dispatch a test job';
+
      public function handle()
      {
+
           dispatch(new TestJob());
-          $this->info('Test job dispatched');
+
+          $this->info('Test job dispatched.');
      }
      /**
       * Execute the console command.
