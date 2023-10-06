@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unique', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('trusted')->default(0);
         });
+
     }
 
     /**
@@ -22,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unique');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('trusted');
+        });
     }
 };
