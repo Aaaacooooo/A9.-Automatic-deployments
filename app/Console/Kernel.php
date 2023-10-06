@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     }
 
     protected $commands = [
-        Commands\DispatchTestJobCommand::class,
+        Commands\DispatchTestJob::class,
     ];
 
 }
