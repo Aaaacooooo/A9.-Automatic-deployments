@@ -12,14 +12,19 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+    public function isTrusted()
+    {
+        return (bool) $this->trusted;
+    }
+
     protected $fillable = [
-        'user_id','name', 'email','password', 'trusted'
+        'user_id', 'name', 'email', 'password', 'trusted'
     ];
 
     /**

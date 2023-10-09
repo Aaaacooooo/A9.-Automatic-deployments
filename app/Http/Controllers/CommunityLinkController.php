@@ -22,7 +22,7 @@ class CommunityLinkController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         //
     }
@@ -47,13 +47,26 @@ class CommunityLinkController extends Controller
 
         $data['user_id'] = Auth::id();
 
-        $approved = Auth::user()->trusted ? true : false;
+        $approved = Auth::user()->isTrusted();
 
         $data['approved'] = $approved;
 
         CommunityLink::create($data);
 
-        return back();
+        if ($approved) {
+            return back()->with('success', 'link created successfully!');
+        } else {
+            return back()->with('error', 'The user is not approved');
+        }
+        // if($mensaje = Session::get('error')){
+        //     return back()->with('error', 'You have no permission for this page!');
+        // };
+
+
+        
+        
+        
+        //return back()->with('success', 'link created successfully!');;
     }
 
     /**

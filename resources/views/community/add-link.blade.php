@@ -1,3 +1,7 @@
+<header>
+    <link rel="stylesheet" href="{{ asset('.\build\css\index.css') }}">
+</header>
+
 <form method="POST" action="/community">
     @csrf
     <div class="form-group">
@@ -18,10 +22,7 @@
         @enderror
     </div>
 
-    <div class="form-group pt-3">
-        <button class="btn btn-primary">Contribute!</button>
-    </div>
-
+    
     {{-- mostrar el desplegable de los canales --}}
     <div class="form-group">
         <label for="Channel">Channel:</label>
@@ -36,5 +37,8 @@
         @error('channel_id')
             <span class="text-danger">{{ $message }}</span>
         @enderror
+    </div>
+    <div class="form-group pt-3">
+        <button class="btn btn-primary">Contribute!</button>
     </div>
 </form>

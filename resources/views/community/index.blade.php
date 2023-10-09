@@ -1,7 +1,11 @@
 @extends('layouts.app')
+<header>
+    <link rel="stylesheet" href="{{ asset('.\build\css\index.css') }}">
+</header>
 
 @section('content')
     <div class="container">
+        @include('flash-message')
         <div class="row">
             {{-- Columna de enlaces (partial) --}}
             @include('community.link-column')
