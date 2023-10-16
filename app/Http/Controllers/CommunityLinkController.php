@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommunityLinkForm;
 use App\Models\Channel;
 use App\Models\CommunityLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class CommunityLinkController extends Controller
 {
@@ -15,7 +17,7 @@ class CommunityLinkController extends Controller
     public function index()
     {
         $channels = Channel::orderBy('title', 'asc')->get();
-        $links = CommunityLink::where('approved', 1)->paginate(25);
+        $links = CommunityLink::where('approved', true)->latest('updated_at')->paginate(25);
         return view('community/index', compact('links', 'channels'));
     }
 
@@ -30,43 +32,32 @@ class CommunityLinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-
+    public function store(CommunityLinkForm $request)
     {
 
-        $data = $request->validate([
-
-            'title' => 'required|max:255',
-
-            'channel_id' => 'required|exists:channels,id',
-
-            'link' => 'required|unique:community_links|url|max:255',
-
-
-        ]);
+        $data = $request->validated();
 
         $data['user_id'] = Auth::id();
-
         $approved = Auth::user()->isTrusted();
-
         $data['approved'] = $approved;
 
-        CommunityLink::create($data);
-
-        if ($approved) {
-            return back()->with('success', 'link created successfully!');
-        } else {
-            return back()->with('error', 'The user is not approved');
+        // Verificar si el enlace ya ha sido enviado & user trusted
+        if(CommunityLink::hasAlreadyBeenSubmitted($data['link'])){
+            if($approved){
+                return back()->with('timestamp', 'El enlace ya ha sido actualizado y guardado en la base de datos.');
+            }
+            if(!$approved){
+                return back()->with('willTrusted', 'Hemos tenido en cuenta tu enlace pero necesitamos que inicies sesión para mostrarlo.');
+            }
+        }else {
+            // Si el enlace es nuevo, seguir con el flujo actual.
+            CommunityLink::create($data);
+            if ($approved) {
+                return back()->with('success', '¡Enlace creado correctamente!');
+            } else {
+                return back()->with('error', 'El usuario no está aprobado.');
+            }
         }
-        // if($mensaje = Session::get('error')){
-        //     return back()->with('error', 'You have no permission for this page!');
-        // };
-
-
-        
-        
-        
-        //return back()->with('success', 'link created successfully!');;
     }
 
     /**

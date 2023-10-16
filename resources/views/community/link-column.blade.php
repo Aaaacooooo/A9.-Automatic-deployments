@@ -12,6 +12,7 @@
                 <a href="{{ $link->link }}" target="_blank" class="nombre">
                     {{ $link->title }}
                 </a>
+                <p>Fecha de creación: {{ $link->created_at->format('d/m/Y H:i:s') }}</p>
                 <small>Contributed by: {{ $link->creator->name }} {{ $link->updated_at->diffForHumans() }}</small>
                 <span class="label label-default" style="background: {{ $link->channel->color }}">
                     {{ $link->channel->title }}
