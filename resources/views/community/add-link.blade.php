@@ -1,6 +1,4 @@
-<header>
-    <link rel="stylesheet" href="{{ asset('.\build\css\index.css') }}">
-</header>
+
 
 <form method="POST" action="/community">
     @csrf

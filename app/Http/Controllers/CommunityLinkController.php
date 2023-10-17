@@ -14,10 +14,15 @@ class CommunityLinkController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Channel $channel = null)
     {
+        if ($channel) {
+            $channel = Channel::where('channel', $channel)->firstOrFail();
+            $links = CommunityLink::where('approved', true)->latest('updated_at')->paginate(25);
+        } else {
+            $links = CommunityLink::where('approved', true)->latest('updated_at')->paginate(25);
+        }
         $channels = Channel::orderBy('title', 'asc')->get();
-        $links = CommunityLink::where('approved', true)->latest('updated_at')->paginate(25);
         return view('community/index', compact('links', 'channels'));
     }
 
@@ -35,21 +40,25 @@ class CommunityLinkController extends Controller
     public function store(CommunityLinkForm $request)
     {
 
+        $link = new CommunityLink(); //Ceamos el objeto link
+        $link->user_id = Auth::id(); //Lo instanciamos
+
         $data = $request->validated();
 
         $data['user_id'] = Auth::id();
         $approved = Auth::user()->isTrusted();
         $data['approved'] = $approved;
 
+
         // Verificar si el enlace ya ha sido enviado & user trusted
-        if(CommunityLink::hasAlreadyBeenSubmitted($data['link'])){
-            if($approved){
+        if ($link->hasAlreadyBeenSubmitted($data['link'])) {
+            if ($approved) {
                 return back()->with('timestamp', 'El enlace ya ha sido actualizado y guardado en la base de datos.');
             }
-            if(!$approved){
+            if (!$approved) {
                 return back()->with('willTrusted', 'Hemos tenido en cuenta tu enlace pero necesitamos que inicies sesión para mostrarlo.');
             }
-        }else {
+        } else {
             // Si el enlace es nuevo, seguir con el flujo actual.
             CommunityLink::create($data);
             if ($approved) {

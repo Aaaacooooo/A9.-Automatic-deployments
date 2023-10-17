@@ -1,7 +1,5 @@
 @extends('layouts.app')
-<header>
-    <link rel="stylesheet" href="{{ asset('.\build\css\index.css') }}">
-</header>
+
 
 @section('content')
     <div class="container">

@@ -30,7 +30,7 @@ class CommunityLink extends Model
     }
 
     //Si un usuario es confiable y el enlace está repetido se actualiza el timestamp y aparecerá en la primera posición del listado.
-    protected static function hasAlreadyBeenSubmitted($link) //Funcion protegida y estática
+    public static function hasAlreadyBeenSubmitted($link) //Funcion protegida y estática
     {
         if ($existing = static::where('link', $link)->first()) {
         /* Consulta que busca el link que es igual al valor pasado en la función
