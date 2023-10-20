@@ -54,7 +54,6 @@ Route::get('/user/{name?}', function (?string $name = 'John') {
 
 Route::post('/gdpr', function () {
     return "ruta post";
-
 });
 
 Route::get('/respuesta/200', function () {
@@ -63,4 +62,12 @@ Route::get('/respuesta/200', function () {
 
 Route::get('/error/404', function () {
     return response('Error', 404);
+});
+
+
+Route::get('/', function () {
+
+    dd(opcache_get_status());
+
+    return view('welcome');
 });
