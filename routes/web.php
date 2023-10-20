@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', function () {
+
+    dd(opcache_get_status());
+
+    return view('welcome');
+});
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -65,9 +72,3 @@ Route::get('/error/404', function () {
 });
 
 
-Route::get('/', function () {
-
-    dd(opcache_get_status());
-
-    return view('welcome');
-});
