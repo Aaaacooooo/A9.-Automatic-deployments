@@ -33,7 +33,7 @@ class CommunityLink extends Model
     public static function hasAlreadyBeenSubmitted($link) //Funcion protegida y estática
     {
         if ($existing = static::where('link', $link)->first()) {
-        /* Consulta que busca el link que es igual al valor pasado en la función
+            /* Consulta que busca el link que es igual al valor pasado en la función
         y si se encuentra una fila, se asigna a la variable $existing*/
             if (Auth::user()->isTrusted()) {
                 // si el usuario es de confianza se ejecutará
@@ -45,5 +45,9 @@ class CommunityLink extends Model
             return true; //devuleve true
         }
         return false; //devuleve false
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'community_link_users');
     }
 }

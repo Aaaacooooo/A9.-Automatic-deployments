@@ -13,8 +13,9 @@
                 <small>Contributed by: {{ $link->creator->name }} {{ $link->updated_at->diffForHumans() }}</small>
                 <a class="label label-default" style="background: {{ $link->channel->color }}" 
                     class="text-decoration-none" href="/community/{{ $link->channel->slug }}">
-                    {{ $link->channel->title }} 
+                    {{ $link->channel->title }}
                 </a>
+                <p>Count_user:{{$link->users()->count()}}</p>
             </li>
         @endforeach
     @endif
