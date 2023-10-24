@@ -15,4 +15,4 @@ jobs:
           port: 2222
           username: acoray
           key: ${{ secrets.PRIVATE_KEY }}
-          script: "cd /var/www/html/simple_app; git pull github master;npm run build"
+          script: "cd /var/www/html/simple_app; git pull github master;npm run build; service php8.2-fpm reload"
