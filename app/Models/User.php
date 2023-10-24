@@ -22,6 +22,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return (bool) $this->trusted;
     }
+    // Definir la relación con los enlaces votados
+    public function votes()
+    {
+        return $this->belongsToMany(CommunityLink::class, 'community_link_users')->withTimestamps();
+    }
+
+    // Método para verificar si el usuario ha votado por un enlace específico
+    public function votedFor(CommunityLink $link)
+    {
+        return $this->votes->contains($link);
+    }
 
     protected $fillable = [
         'user_id', 'name', 'email', 'password', 'trusted'
