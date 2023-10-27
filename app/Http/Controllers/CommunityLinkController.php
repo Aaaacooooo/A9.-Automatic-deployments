@@ -17,20 +17,28 @@ class CommunityLinkController extends Controller
     public function index(Channel $channel = null)
     {
         // Obtener todos los enlaces de la comunidad aprobados
-        $query = CommunityLink::where('approved', true)->latest('updated_at');
-
+        $query = CommunityLink::where('approved', true);
+    
         // Si se proporciona un canal, filtrar por ese canal
         if ($channel) {
             $query->where('channel_id', $channel->id);
         }
-
-        // Obtener los enlaces paginados
+    
+        // Verificar si se desea ordenar por popularidad
+        if (request()->exists('popular')) {
+            $query->withCount('users')->orderByDesc('users_count');
+        } else {
+            // Ordenar por la lógica original si no se solicita popular
+            $query->latest('updated_at');
+        }
+    
+        // Convertir la instancia de colección en Query Builder y obtener los enlaces paginados
         $links = $query->paginate(25);
-
+    
         // Obtener todos los canales para mostrar en la vista
         $channels = Channel::orderBy('title', 'asc')->get();
-
-        return view('community/index', compact('links', 'channels', 'channel'));
+    
+        return view('community.index', compact('links', 'channels', 'channel'));
     }
 
 

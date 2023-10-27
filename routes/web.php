@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    dd(opcache_get_status());
     return view('welcome');
 });
 
@@ -28,6 +27,10 @@ Route::get('/home', function () {
 Route::get('community/{channel:slug}', [App\Http\Controllers\CommunityLinkController::class, 'index']);
 
 Route::post('/votes/{link}', 'App\Http\Controllers\CommunityLinkUserController@store');
+
+
+Route::post('/community?popular', 'App\Http\Controllers\CommunityLinkUserController@index');
+
 
 //Una para mostrar todos los enlaces que llamará al método index del controlador mediante GET 
 Route::get('community', [App\Http\Controllers\CommunityLinkController::class, 'index']);
@@ -66,5 +69,3 @@ Route::get('/respuesta/200', function () {
 Route::get('/error/404', function () {
     return response('Error', 404);
 });
-
-
