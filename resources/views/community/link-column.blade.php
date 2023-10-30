@@ -1,5 +1,14 @@
 <!-- link-column.blade.php -->
 <div class="col-md-8">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link {{ request()->exists('popular') ? '' : 'disabled' }}" href="{{ request()->url() }}">Most
+                recent</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->exists('popular') ? 'disabled' : '' }}" href="?popular">Most popular</a>
+        </li>
+    </ul>
     <a class="titulo" href="/community">Community {{ $channel ? $channel->title : '' }}</a>
     @if (count($links) === 0)
         <p>No approved contributions yet</p>
@@ -11,8 +20,8 @@
                 </a>
                 <p>Fecha de creación: {{ $link->created_at->format('d/m/Y H:i:s') }}</p>
                 <small>Contributed by: {{ $link->creator->name }} {{ $link->updated_at->diffForHumans() }}</small>
-                <a class="label label-default" style="background: {{ $link->channel->color }}" class="text-decoration-none"
-                    href="/community/{{ $link->channel->slug }}">
+                <a class="label label-default" style="background: {{ $link->channel->color }}"
+                    class="text-decoration-none" href="/community/{{ $link->channel->slug }}">
                     {{ $link->channel->title }}
                 </a>
                 <a>Count_user:{{ $link->users()->count() }}</a>
