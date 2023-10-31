@@ -17,21 +17,30 @@ class CommunityLinkController extends Controller
      * Display a listing of the resource.
      */
     public function index(Channel $channel = null)
-{
+    {
+        $query = trim(request()->get('search'));
 
-    if (request()->exists('popular')) {
-        $links = CommunityLinksQuery::getMostPopular();
-    } elseif ($channel) {
-        $links = CommunityLinksQuery::getByChannel($channel);
-    } else {
-        $links = CommunityLinksQuery::getAll();
+        if (request()->exists('popular')) {
+            $links = CommunityLinksQuery::getMostPopular();
+        } elseif ($channel) {
+            $links = CommunityLinksQuery::getByChannel($channel);
+        } elseif (request()->exists('search')) {
+            $links = CommunityLinksQuery::busqueda(request()->get('search'));
+        } else {
+            $links = CommunityLinksQuery::getAll();
+        }
+
+
+
+
+
+        // Obtener todos los canales para mostrar en la vista
+        $channels = Channel::orderBy('title', 'asc')->get();
+
+
+
+        return view('community.index', compact('links', 'channels', 'channel'));
     }
-
-    // Obtener todos los canales para mostrar en la vista
-    $channels = Channel::orderBy('title', 'asc')->get();
-
-    return view('community.index', compact('links', 'channels', 'channel'));
-}
 
 
 

@@ -14,6 +14,10 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('.\build\css\index.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-GnWAIfwB4QjlNyyQGVpKulz4fmw2NR7FvdQDFe6nHt8L8hZlDSuuj/zJPXmJ+c4TCBm50uUEfwgARvlTfQj4JA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])

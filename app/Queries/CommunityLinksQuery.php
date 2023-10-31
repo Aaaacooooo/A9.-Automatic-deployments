@@ -4,9 +4,9 @@ namespace App\Queries;
 
 use App\Models\Channel;
 use App\Models\CommunityLink;
+use Illuminate\Database\Eloquent\Builder;
 
-
-class CommunityLinksQuery
+class CommunityLinksQuery extends Builder
 {
     public static function getByChannel(Channel $channel)
     {
@@ -39,5 +39,24 @@ class CommunityLinksQuery
             $query->latest('updated_at');
         }
         return $query->paginate(25);
+    }
+
+    public static function busqueda($query)
+    {
+        // Divide la consulta en palabras individuales
+        $palabrasClave = explode(' ', $query);
+
+        // Inicializa la consulta con todos los registros
+        $consulta = CommunityLink::query();
+
+        // Aplica la condición para cada palabra clave
+        foreach ($palabrasClave as $palabra) {
+            $consulta->where(function ($q) use ($palabra) {
+                $q->where('title', 'like', '%' . $palabra . '%');
+            });
+        }
+
+        // Ordena los resultados por la última actualización y pagínalos
+        return $consulta->latest('updated_at')->paginate(25);
     }
 }
