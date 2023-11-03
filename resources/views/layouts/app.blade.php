@@ -35,12 +35,12 @@
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-    
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                     </ul>
-    
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
@@ -50,30 +50,32 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-    
+
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('edit-profile') }}">{{ __('Edit profile') }}</a>
-                            </li>
-    
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
+                                    @if ($profile = Auth::user()->profile )
+                                        <!-- Código para mostrar la imagen de perfil -->
+                                        <img src="{{ asset('storage/' . $profile->imageUpload) }}" alt="Perfil del usuario"
+                                            style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                                    @endif
                                 </a>
-    
+                                
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link" href="{{ route('edit-profile') }}">{{ __('edit-profile') }}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-    
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -84,12 +86,12 @@
                 </div>
             </div>
         </nav>
-    
+
         <main class="py-4">
             @yield('content')
         </main>
     </div>
-    
+
 </body>
 
 </html>

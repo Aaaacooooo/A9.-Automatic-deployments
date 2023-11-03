@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->index();
             $table->string('imageUpload')->nullable();
             $table->timestamps();
         });

@@ -56,7 +56,12 @@ Route::get('/user/{name?}', function (?string $name = null) {
 
 
 // Ruta protegida para editar el perfil del usuario
-Route::get('/profile/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->middleware('auth')->name('profile.edit');
+Route::get('/profile/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->middleware('auth')->name('edit-profile');
+
+
+// Ruta para manejar la actualización del perfil del usuario
+Route::post('/profile/store', [App\Http\Controllers\ProfileController::class, 'store'])->middleware('auth')->name('profile.store');
+
 
 
 
