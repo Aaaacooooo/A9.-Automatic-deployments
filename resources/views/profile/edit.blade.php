@@ -19,8 +19,10 @@
                             <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
 
                             @if ($profile->imageUpload)
-                                <img src="{{ asset('storage/' . $profile->imageUpload) }}" alt="Perfil del usuario">
+                                <img src="{{ asset('storage/' . $profile->imageUpload) }}" alt="Perfil del usuario"
+                                    style="max-width: 300px; height: auto; padding: 20px;">
                             @endif
+
                         </form>
                         @error('imageUpload')
                             <div class="alert alert-danger mt-2">{{ $message }}</div>
